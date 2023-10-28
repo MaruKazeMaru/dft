@@ -5,6 +5,8 @@
 
 #include <math.h>
 
+float** fft_recurs(int start, int size, int skip, float* f, float** w);
+
 float* fft(int f_size, float* f){
     float** w = new float*[f_size];
     float dtheta = 2.0 * M_PI / (float)f_size;
@@ -29,7 +31,6 @@ float* fft(int f_size, float* f){
 
     return spec;
 }
-
 
 float** fft_recurs(int start, int size, int skip, float* f, float** w){
     if(size == 1){
