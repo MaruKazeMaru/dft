@@ -54,8 +54,8 @@ float** fft_recurs(int start, int size, int skip, float* f, float** w){
             f_hat[i1][0] += w[i1 * skip][0] * f_hat_o[i][0];
             f_hat[i1][0] -= w[i1 * skip][1] * f_hat_o[i][1];
             f_hat[i1][1] = f_hat_e[i][1];
-            f_hat[i1][1] += w[i1 * skip][0] * f_hat_o[i][0];
-            f_hat[i1][1] -= w[i1 * skip][1] * f_hat_o[i][1];
+            f_hat[i1][1] += w[i1 * skip][0] * f_hat_o[i][1];
+            f_hat[i1][1] += w[i1 * skip][1] * f_hat_o[i][0];
 
             int i2 = i + size_h;
             f_hat[i2] = new float[2];
@@ -63,8 +63,8 @@ float** fft_recurs(int start, int size, int skip, float* f, float** w){
             f_hat[i2][0] += w[i2 * skip][0] * f_hat_o[i][0];
             f_hat[i2][0] -= w[i2 * skip][1] * f_hat_o[i][1];
             f_hat[i2][1] = f_hat_e[i][1];
-            f_hat[i2][1] += w[i2 * skip][0] * f_hat_o[i][0];
-            f_hat[i2][1] -= w[i2 * skip][1] * f_hat_o[i][1];
+            f_hat[i2][1] += w[i2 * skip][0] * f_hat_o[i][1];
+            f_hat[i2][1] += w[i2 * skip][1] * f_hat_o[i][0];
 
             delete f_hat_e[i];
             delete f_hat_o[i];
