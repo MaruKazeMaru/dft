@@ -1,6 +1,6 @@
 CC = g++
 TARGET = build/bin/main
-FILENAMES = dft main
+FILENAMES = dft wavio main
 SRCS = $(addprefix src/,$(addsuffix .cpp,$(FILENAMES)))
 OBJS = $(addprefix build/obj/,$(addsuffix .o,$(FILENAMES)))
 INCDIR = -I./include

@@ -6,7 +6,7 @@
 
 #include <wavio.hpp>
 
-bool comp4(char* l, char* r){
+bool comp4(char* l, const char* r){
     for(uint8_t i = 0; i < 4; ++i)
         if(l[i] != r[i])
             return false;
@@ -63,7 +63,7 @@ wav* get_wav(char* file_path){
         //-------------
         // fmt chunk
         //-------------
-        if(comp4(s, " fmt")){
+        if(comp4(s, "fmt ")){
             if(chunk_size < 16)
                 throw wav_format_error("fmt chunk is too small");
 
@@ -72,6 +72,7 @@ wav* get_wav(char* file_path){
             f.read((char*)&freq, 4);
             f.seekg(6, std::ios_base::cur);
             f.read((char*)&quant, 2);
+            quant /= 8;
             f.seekg(chunk_size - 16, std::ios_base::cur);
 
             fmt_read = true;
