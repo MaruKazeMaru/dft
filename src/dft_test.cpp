@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: MIT License
 
 #include <iostream>
-#include <fstream>
-#include <stdlib.h>
 
 #include <dft.hpp>
 
