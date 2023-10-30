@@ -15,7 +15,7 @@ wavio: $(OBJDIR)/wavio.o $(OBJDIR)/wavio_test.o
 	mkdir -p bin
 	$(CC) $^ -o ./bin/$@
 
-$(OBJDIR)/%.o: $(SRC)/%.cpp
+../build/obj/%.o: ../src/%.cpp
 	mkdir -p $(OBJDIR)
 	$(CC) $(INCDIR) -c $< -o $@
 
