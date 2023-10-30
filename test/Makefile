@@ -11,7 +11,7 @@ dft: $(OBJDIR)/dft.o $(OBJDIR)/dft_test.o
 	mkdir -p bin
 	$(CC) $^ -lm -o ./bin/$@
 
-wavio: $(OBJDIR)/wavio.o $(OBJDIR)/wavio_test.o
+iwav: $(OBJDIR)/iwav.o $(OBJDIR)/iwav_test.o
 	mkdir -p bin
 	$(CC) $^ -o ./bin/$@
 
