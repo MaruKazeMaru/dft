@@ -4,7 +4,7 @@
 #include <iostream>
 #include <fstream>
 
-#include <wavio.hpp>
+#include <iwav.hpp>
 
 bool comp4(char* l, const char* r){
     for(uint8_t i = 0; i < 4; ++i)
