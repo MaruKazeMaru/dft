@@ -1,15 +1,23 @@
 CC = g++
-TARGETNAME =
-FILENAMES = $(TARGETNAME) $(TARGETNAME)_test
-SRCS = $(addprefix ../src/,$(addsuffix .cpp,$(FILENAMES)))
-OBJS = $(addprefix ../build/obj/,$(addsuffix .o,$(FILENAMES)))
+OBJDIR = ../build/obj
+SRCDIR = ../src
 INCDIR = -I../include
-LIBS = -lm
 
-$(TARGETNAME): $(OBJS)
+opng: $(OBJDIR)/opng.o $(OBJDIR)/opng_test.o
 	mkdir -p bin
-	$(CC) $(OBJS) $(LIBS) -o ./bin/$(TARGETNAME)
+	$(CC) $^ -lpng -o ./bin/$@
 
-../build/obj/%.o: ../src/%.cpp
-	mkdir -p ../build/obj
+dft: $(OBJDIR)/dft.o $(OBJDIR)/dft_test.o
+	mkdir -p bin
+	$(CC) $^ -lm -o ./bin/$@
+
+wavio: $(OBJDIR)/wavio.o $(OBJDIR)/wavio_test.o
+	mkdir -p bin
+	$(CC) $^ -o ./bin/$@
+
+$(OBJDIR)/%.o: $(SRC)/%.cpp
+	mkdir -p $(OBJDIR)
 	$(CC) $(INCDIR) -c $< -o $@
+
+clean:
+	rm -r bin
