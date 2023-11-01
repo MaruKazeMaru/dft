@@ -1,14 +1,15 @@
 CC = g++
-TARGET = build/bin/main
-FILENAMES = dft iwav main
+TARGETNAMES = create_time_graph
+TARGETS = $(addprefix build/bin/, $(TARGETNAMES))
+FILENAMES = dft iwav opng linegraph $(TARGETNAMES)
 SRCS = $(addprefix src/,$(addsuffix .cpp,$(FILENAMES)))
 OBJS = $(addprefix build/obj/,$(addsuffix .o,$(FILENAMES)))
 INCDIR = -I./include
-LIBS = -lm
+LIBS = -lm -lpng
 
-$(TARGET): $(OBJS)
+$(TARGETS): $(OBJS)
 	mkdir -p build/bin
-	$(CC) $(OBJS) $(LIBS) -o $(TARGET)
+	$(CC) $(OBJS) $(LIBS) -o $(TARGETS)
 
 build/obj/%.o: src/%.cpp
 	mkdir -p build/obj

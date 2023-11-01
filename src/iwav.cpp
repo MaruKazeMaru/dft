@@ -22,7 +22,7 @@ wav::~wav(){
 
 wav::wav(
     unsigned int freq, unsigned short quant, unsigned short channel,
-    unsigned int data_len, int** datas
+    unsigned int data_len, short** datas
 ){
     this->freq = freq;
     this->quant = quant;
@@ -39,7 +39,7 @@ wav* get_wav(char* file_path){
 
     unsigned short quant, channel;
     unsigned int freq, data_len;
-    int** datas;
+    short** datas;
 
     //-------------
     // RIFF chunk
@@ -86,9 +86,9 @@ wav* get_wav(char* file_path){
 
             data_len = chunk_size / (channel * quant);
 
-            datas = new int*[channel];
+            datas = new short*[channel];
             for(unsigned short c = 0; c < channel; ++c)
-                datas[c] = new int[data_len];
+                datas[c] = new short[data_len];
 
             for(unsigned int i = 0; i < data_len; ++i)
                 for(unsigned short c = 0; c < channel; ++c)
