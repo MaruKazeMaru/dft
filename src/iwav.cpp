@@ -72,6 +72,8 @@ wav* get_wav(char* file_path){
             f.read((char*)&freq, 4);
             f.seekg(6, std::ios_base::cur);
             f.read((char*)&quant, 2);
+            if(quant > 16)
+                throw wav_format_error("too large quantization bit");
             quant /= 8;
             f.seekg(chunk_size - 16, std::ios_base::cur);
 
@@ -90,9 +92,21 @@ wav* get_wav(char* file_path){
             for(unsigned short c = 0; c < channel; ++c)
                 datas[c] = new short[data_len];
 
-            for(unsigned int i = 0; i < data_len; ++i)
-                for(unsigned short c = 0; c < channel; ++c)
-                    f.read((char*)&datas[c][i], quant);
+            char temp1;
+            short temp2;
+
+            for(unsigned int i = 0; i < data_len; ++i){
+                for(unsigned short c = 0; c < channel; ++c){
+                    if(quant == 1){
+                        f.read(&temp1, 1);
+                        datas[c][i] = (short) temp1;
+                    }
+                    else{
+                        f.read((char*)&temp2, 2);
+                        datas[c][i] = temp2;
+                    }
+                }
+            }
 
             data_read = true;
             break;
