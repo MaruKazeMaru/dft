@@ -18,11 +18,11 @@ class wav{
     unsigned short quant;
     unsigned short channel;
     unsigned int data_len;
-    short** datas;
+    int** datas;
 
     wav(
         unsigned int freq, unsigned short quant, unsigned short channel,
-        unsigned int data_len, short** datas
+        unsigned int data_len, int** datas
     );
     ~wav();
 

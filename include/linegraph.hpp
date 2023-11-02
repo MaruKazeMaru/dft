@@ -7,7 +7,7 @@
 void plot_data(
     unsigned int width, unsigned int height, char* file_path,
     unsigned int data_size, float* data,
-    float y_min, float y_max
+    double y_min, double y_max
 );
 
 #endif

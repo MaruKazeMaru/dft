@@ -7,7 +7,7 @@
 void plot_data(
     unsigned int width, unsigned int height, char* file_path,
     unsigned int data_size, float* data,
-    float y_min, float y_max
+    double y_min, double y_max
 ){
     FILE* pp = popen("gnuplot ", "w");
 
@@ -16,7 +16,7 @@ void plot_data(
     fprintf(pp, "unset tics\n");
     fprintf(pp, "set margins 0,0,0,0\n");
     fprintf(pp, "set xrange [0:%u]\n", data_size - 1);
-    fprintf(pp, "set yrange [%f:%f]\n", y_min, y_max);
+    fprintf(pp, "set yrange [%lf:%lf]\n", y_min, y_max);
     fprintf(pp, "unset key\n");
     fprintf(pp, "plot '-' with lines linecolor 'black'\n");
 
