@@ -15,27 +15,20 @@ int main(int argc, char** argv){
 
     unsigned int width=64;
     unsigned int height=32;
-    unsigned char*** data;
-    data = new unsigned char**[width];
+    unsigned char** data;
+    data = new unsigned char*[width];
     for(unsigned int x = 0; x < width; ++x){
-        data[x] = new unsigned char*[height];
+        data[x] = new unsigned char[height];
         for(unsigned int y = 0; y < height; ++y){
-            data[x][y] = new unsigned char[3];
-            if(x >= width / 2 && y >= height / 2){
-                data[x][y][0] = 255;
-                data[x][y][1] = 0;
-                data[x][y][2] = 0;
-            }
-            else{
-                data[x][y][0] = 255;
-                data[x][y][1] = 255;
-                data[x][y][2] = 255;
-            }
+            if(x >= width / 2 && y >= height / 2)
+                data[x][y] = 255;
+            else
+                data[x][y] = 0;
         }
     }
 
     std::cout << "ddefined data" << std::endl;
-    opng_rgb* png = new opng_rgb(width, height, data);
+    opng* png = new opng(width, height, data);
     std::cout << "ddefined png" << std::endl;
 
     png->write(argv[1]);

@@ -10,18 +10,18 @@ class opng_write_error: public std::runtime_error{
     opng_write_error(const char* msg):runtime_error(msg){};
 };
 
-class opng_rgb{
+class opng{
     private:
     unsigned int width;
     unsigned int height;
-    unsigned char*** data;
+    unsigned char** data;
 
     public:
-    opng_rgb(
+    opng(
         unsigned int width, unsigned int height,
-        unsigned char*** data
+        unsigned char** data
     );
-    ~opng_rgb();
+    ~opng();
 
     void write(char* file_path);
 };
