@@ -1,18 +1,33 @@
 CC = g++
-TARGETNAMES = create_time_graph
-TARGETS = $(addprefix build/bin/, $(TARGETNAMES))
-FILENAMES = dft iwav opng linegraph $(TARGETNAMES)
-SRCS = $(addprefix src/,$(addsuffix .cpp,$(FILENAMES)))
-OBJS = $(addprefix build/obj/,$(addsuffix .o,$(FILENAMES)))
+
+SRCDIR = src
+OBJDIR = build/obj
+BINDIR = build/bin
+
+TARGETNAME1 = create_info
+TARGET1 = $(BINDIR)/$(TARGETNAME1)
+OBJNAMES1 = iwav $(TARGETNAME1)
+OBJS1 = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(OBJNAMES1)))
+
+TARGETNAME2 = create_time_graph
+TARGET2 = $(BINDIR)/$(TARGETNAME2)
+OBJNAMES2 = iwav linegraph $(TARGETNAME2)
+OBJS2 = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(OBJNAMES2)))
+
 INCDIR = -I./include
-LIBS = -lm -lpng
 
-$(TARGETS): $(OBJS)
-	mkdir -p build/bin
-	$(CC) $(OBJS) $(LIBS) -o $(TARGETS)
+all: $(TARGET1) $(TARGET2)
 
-build/obj/%.o: src/%.cpp
-	mkdir -p build/obj
+$(TARGET1): $(OBJS1)
+	@mkdir -p $(BINDIR)
+	$(CC) $^ -o $@
+
+$(TARGET2): $(OBJS2)
+	@mkdir -p $(BINDIR)
+	$(CC) $^ -o $@
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+	@mkdir -p $(OBJDIR)
 	$(CC) $(INCDIR) -c $< -o $@
 
 clean:
