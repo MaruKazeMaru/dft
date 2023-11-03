@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: 2023 ShinagwaKazemaru
 // SPDX-License-Identifier: MIT License
 
-#ifndef __WAVIO_HPP__
-#define __WAVIO_HPP__
+#ifndef __IWAV_HPP__
+#define __IWAV_HPP__
 
 #include <iostream>
 #include <fstream>
