@@ -14,9 +14,18 @@ TARGET2 = $(BINDIR)/$(TARGETNAME2)
 OBJNAMES2 = iwav linegraph $(TARGETNAME2)
 OBJS2 = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(OBJNAMES2)))
 
+TARGETNAME3 = create_spectrogram
+TARGET3 = $(BINDIR)/$(TARGETNAME3)
+OBJNAMES3 = iwav opng heatmap dft $(TARGETNAME3)
+OBJS3 = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(OBJNAMES3)))
+
 INCDIR = -I./include
 
-all: $(TARGET1) $(TARGET2)
+all: t1 t2 t3
+
+t1: $(TARGET1)
+t2: $(TARGET2)
+t3: $(TARGET3)
 
 $(TARGET1): $(OBJS1)
 	@mkdir -p $(BINDIR)
@@ -25,6 +34,10 @@ $(TARGET1): $(OBJS1)
 $(TARGET2): $(OBJS2)
 	@mkdir -p $(BINDIR)
 	$(CC) $^ -o $@
+
+$(TARGET3): $(OBJS3)
+	@mkdir -p $(BINDIR)
+	$(CC) $^ -o $@  -lm -lpng
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(OBJDIR)

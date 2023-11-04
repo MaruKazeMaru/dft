@@ -27,7 +27,7 @@ opng::~opng(){
 void opng::write(char* file_path){
     FILE* fp = fopen(file_path, "wb");
     if(fp == NULL)
-        throw new opng_write_error("can't open file");
+        throw opng_write_error("can't open file");
 
     png_struct* psp = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
     png_info* pip = png_create_info_struct(psp);
