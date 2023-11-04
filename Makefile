@@ -19,13 +19,19 @@ TARGET3 = $(BINDIR)/$(TARGETNAME3)
 OBJNAMES3 = iwav opng heatmap dft $(TARGETNAME3)
 OBJS3 = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(OBJNAMES3)))
 
+TARGETNAME4 = create_spec_graph
+TARGET4 = $(BINDIR)/$(TARGETNAME4)
+OBJNAMES4 = iwav linegraph dft $(TARGETNAME4)
+OBJS4 = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(OBJNAMES4)))
+
 INCDIR = -I./include
 
-all: t1 t2 t3
+all: t1 t2 t3 t4
 
 t1: $(TARGET1)
 t2: $(TARGET2)
 t3: $(TARGET3)
+t4: $(TARGET4)
 
 $(TARGET1): $(OBJS1)
 	@mkdir -p $(BINDIR)
@@ -38,6 +44,10 @@ $(TARGET2): $(OBJS2)
 $(TARGET3): $(OBJS3)
 	@mkdir -p $(BINDIR)
 	$(CC) $^ -o $@  -lm -lpng
+
+$(TARGET4): $(OBJS4)
+	@mkdir -p $(BINDIR)
+	$(CC) $^ -o $@  -lm
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(OBJDIR)
