@@ -25,6 +25,7 @@ float* fft(int f_size, float* f){
     float* spec = new float[f_size];
     for(int i = 0; i < f_size; ++i){
         spec[i] = f_hat[i][0] * f_hat[i][0] + f_hat[i][1] * f_hat[i][1];
+        spec[i] = logf(spec[i] + 1.0f);
 
         delete f_hat[i];
     }

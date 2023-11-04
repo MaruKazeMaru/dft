@@ -24,18 +24,12 @@ char* string_to_char_arr(std::string s){
 }
 
 int main(void){
-    std::cout << "start" << std::endl;
-
     std::string s;
     std::cin >> s;
     char* wav_path = string_to_char_arr(s);
 
-    std::cout << wav_path << std::endl;
-
     std::cin >> s;
     char* result_dir = string_to_char_arr(s);
-
-    std::cout << result_dir << std::endl;
 
     float window_time;
     std::cin >> window_time;
@@ -57,9 +51,6 @@ int main(void){
     width = (int)((float)w-> data_len / (float)(window_len / 2)) - 1;
     height = window_len;
 
-    std::cout << "width =" << width << std::endl;
-    std::cout << "height=" << height << std::endl;
-
     int path_len = 0;
     while(wav_path[path_len] != '\0')
         ++ path_len;
@@ -71,14 +62,12 @@ int main(void){
     strcat(graph_path, "/spectrogram_0.png");
 
     float* data_f = new float[window_len];
-
-    std::cout << "start" << std::endl;
+    float* spectrogram_max = new float[w->channel];
 
     for(unsigned short c = 0; c < w->channel; ++c){
         ++graph_path[path_len + 12];
-        std::cout << "graph_path=" << graph_path << std::endl;
 
-        float spectrogram_max = 0.0;
+        spectrogram_max[c] = 0.0;
 
         float** spectrogram = new float*[width];
         for(unsigned x = 0; x < width; ++x){
@@ -88,22 +77,16 @@ int main(void){
             spectrogram[x] = fft(window_len, data_f);
 
             for(unsigned int y = 0; y < height; ++y)
-                if(spectrogram[x][y] > spectrogram_max)
-                    spectrogram_max = spectrogram[x][y];
+                if(spectrogram[x][y] > spectrogram_max[c])
+                    spectrogram_max[c] = spectrogram[x][y];
         }
-
-        std::cout << "defined spectrogram" << std::endl;
 
         opng* png = new opng(
             width, height,
-            get_heatmap(width, height, 0.0, spectrogram_max, spectrogram)
+            get_heatmap(width, height, 0.0, spectrogram_max[c], spectrogram)
         );
 
-        std::cout << "defined png" << std::endl;
-
         png->write(graph_path);
-
-        std::cout << "written" << std::endl;
 
         delete png;
 
@@ -112,7 +95,7 @@ int main(void){
         delete spectrogram;
     }
 
-    delete graph_path, data_f, w;
+    delete graph_path, data_f;
 
     char* info_path = new char[path_len + 22];
     // 22 = |/spectrogram_info.json|
@@ -121,11 +104,15 @@ int main(void){
 
     std::ofstream f;
     f.open(info_path, std::ios::out);
-    f << "{\"window_len\": " << window_len;
+    f << "{\"window_len\":" << window_len;
+    f << ",\"maxs\":[" << spectrogram_max[0];
+    for(unsigned short c = 1; c < w->channel; ++c)
+        f << "," << spectrogram_max[c];
+    f << "]";
     f << "}";
     f.close();
 
-    delete info_path, wav_path, result_dir;
+    delete info_path, wav_path, result_dir, w;
 
     return 0;
 }
