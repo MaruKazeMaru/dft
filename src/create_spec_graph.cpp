@@ -71,9 +71,9 @@ int main(void){
         f << "{";
         f << "\"type\":\"linegraph\"";
         f << ",\"graph_path\":\"" << graph_path_r << "\"";
-        f << ",\"xlabel\":\"frequency [Hz]\"";
+        f << ",\"xlabel\":\"frequency [kHz]\"";
         f << ",\"xmin\":" << 0;
-        f << ",\"xmax\":" << (float)w->freq / 2.0;
+        f << ",\"xmax\":" << (float)w->freq / (2.0 * 1000.0);
         f << ",\"ylabel\":\"intensity\"";
         f << ",\"ymin\":" << 0;
         f << ",\"ymax\":" << spec_max;

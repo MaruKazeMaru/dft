@@ -74,9 +74,9 @@ int main(void){
         f << ",\"xlabel\":\"time [s]\"";
         f << ",\"xmin\":" << 0;
         f << ",\"xmax\":" << (float)w->data_len / (float)w->freq;
-        f << ",\"ylabel\":\"frequency [Hz]\"";
+        f << ",\"ylabel\":\"frequency [kHz]\"";
         f << ",\"ymin\":" << 0;
-        f << ",\"ymax\":" << (float)w->freq / 2.0;
+        f << ",\"ymax\":" << (float)w->freq / (2.0 * 1000.0);
         f << ",\"clabel\":\"intensity\"";
         f << "}";
         f.close();
