@@ -23,6 +23,7 @@ class opng{
     );
     ~opng();
 
+    void invert_y();
     void write(char* file_path);
 };
 

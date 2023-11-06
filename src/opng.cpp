@@ -18,11 +18,27 @@ opng::opng(
     this->data = data;
 }
 
+
 opng::~opng(){
     for(unsigned int x = 0; x < width; ++x)
         delete data[x];
     delete data;
 }
+
+
+void opng::invert_y(){
+    unsigned int hh = height / 2;
+    for(unsigned int y = 0; y < hh; ++y){
+        unsigned int y1 = y;
+        unsigned int y2 = height - 1 - y;
+        for(unsigned int x = 0; x < width; ++x){
+            unsigned char temp = data[x][y1];
+            data[x][y1] = data[x][y2];
+            data[x][y2] = temp;
+        }
+    }
+}
+
 
 void opng::write(char* file_path){
     FILE* fp = fopen(file_path, "wb");

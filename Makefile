@@ -11,17 +11,17 @@ OBJS1 = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(OBJNAMES1)))
 
 TARGETNAME2 = create_time_graph
 TARGET2 = $(BINDIR)/$(TARGETNAME2)
-OBJNAMES2 = iwav linegraph $(TARGETNAME2)
+OBJNAMES2 = parse_stdin iwav linegraph $(TARGETNAME2)
 OBJS2 = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(OBJNAMES2)))
 
 TARGETNAME3 = create_spectrogram
 TARGET3 = $(BINDIR)/$(TARGETNAME3)
-OBJNAMES3 = iwav opng heatmap dft $(TARGETNAME3)
+OBJNAMES3 = parse_stdin iwav opng heatmap dft $(TARGETNAME3)
 OBJS3 = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(OBJNAMES3)))
 
 TARGETNAME4 = create_spec_graph
 TARGET4 = $(BINDIR)/$(TARGETNAME4)
-OBJNAMES4 = iwav linegraph dft $(TARGETNAME4)
+OBJNAMES4 = parse_stdin iwav linegraph dft $(TARGETNAME4)
 OBJS4 = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(OBJNAMES4)))
 
 INCDIR = -I./include

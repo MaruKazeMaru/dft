@@ -2,60 +2,65 @@
 // SPDX-License-Identifier: MIT License
 
 #include <iostream>
-#include <filesystem>
+#include <fstream>
 #include <bits/stdc++.h> 
-#include <math.h>
 #include <string.h>
 
+#include <parse_stdin.hpp>
 #include <iwav.hpp>
 #include <linegraph.hpp>
 
 namespace fs = std::filesystem;
 
-int main(int argc, char** argv){
-    if(argc < 3){
-        std::cout << "few argument" << std::endl;
-        return 1;
-    }
+int main(void){
+    char *wav_path, *result_dir;
 
-    if(!fs::exists(argv[1])){
-        std::cout << "wav file doesn't exist" << std::endl;
+    if(!get_paths(&wav_path, &result_dir))
         return 1;
-    }
 
-    if(!fs::exists(argv[2])){
-        fs::create_directory(argv[2]);
-    }
-    else if(!fs::is_directory(argv[2])){
-        std::cout << "output path already exists & it's not dir" << std::endl;
-        return 1;
-    }
-
-    wav* w = get_wav(argv[1]);
+    wav* w = get_wav(wav_path);
 
     float y_max;
     if(w->quant == 1)
         y_max = 127;
     else
         y_max = 32767;
+
     float* data_f = new float[w->data_len];
-    int path_len = 0;
-    while(argv[2][path_len] != '\0')
-        ++ path_len;
-    ++path_len;
-    char* graph_path = new char[path_len + 17];
-    // 17 = |/time_graph_0.png|
-    strcpy(graph_path, argv[2]);
-    strcat(graph_path, "/time_graph_0.png");
 
     for(unsigned short c = 0; c < w->channel; ++c){
-        ++graph_path[path_len + 11];
+        char* graph_path_r = set_path_index("time_graph_0.png", c);
+        char* graph_path = join_path(result_dir, graph_path_r);
+
         for(unsigned long i = 0; i < w->data_len; ++i)
             data_f[i] = (float)w->datas[c][i];
         plot_data(2048, 1024, graph_path, w->data_len, data_f, -y_max, y_max);
+
+        delete graph_path;
+
+
+        char* info_path_r = set_path_index("time_graph_info_0.json", c);
+        char* info_path = join_path(result_dir, info_path_r);
+        delete info_path_r;
+
+        std::fstream f;
+        f.open(info_path, std::ios::out);
+        f << "{";
+        f << "\"type\":\"linegraph\"";
+        f << ",\"graph_path\":\"" << graph_path_r << "\"";
+        f << ",\"xlabel\":\"time [s]\"";
+        f << ",\"xmin\":" << 0;
+        f << ",\"xmax\":" << (float)w->data_len / (float)w->freq;
+        f << ",\"ylabel\":\"amplitude\"";
+        f << ",\"ymin\":-1";
+        f << ",\"ymax\":1";
+        f << "}";
+        f.close();
+
+        delete info_path, graph_path_r;
     }
 
-    delete graph_path, data_f, w;
+    delete data_f, w;
 
     return 0;
 }
