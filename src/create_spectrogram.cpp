@@ -28,7 +28,7 @@ int main(void){
 
     unsigned int width, height;
     width = (int)((float)w-> data_len / (float)(window_len / 2)) - 1;
-    height = window_len / 2 + 1;
+    height = window_len / 2;
 
     float* data_f = new float[window_len];
 
@@ -45,8 +45,8 @@ int main(void){
             spectrogram[x] = fft(window_len, data_f);
 
             for(unsigned int y = 0; y < height; ++y)
-                if(spectrogram[x][y] > spectrogram_max)
-                    spectrogram_max = spectrogram[x][y];
+                if(spectrogram[x][y + 1] > spectrogram_max)
+                    spectrogram_max = spectrogram[x][y + 1];
         }
 
         opng* png = new opng(
@@ -75,7 +75,7 @@ int main(void){
         f << ",\"xmin\":" << 0;
         f << ",\"xmax\":" << (float)w->data_len / (float)w->freq;
         f << ",\"ylabel\":\"frequency [kHz]\"";
-        f << ",\"ymin\":" << 0;
+        f << ",\"ymin\":" << (float)w->freq / ((float)window_len * 1000.0);
         f << ",\"ymax\":" << (float)w->freq / (2.0 * 1000.0);
         f << ",\"clabel\":\"intensity\"";
         f << "}";
