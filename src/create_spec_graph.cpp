@@ -24,7 +24,6 @@ int main(void){
         delete w, wav_path, result_dir;
         return 1;
     }
-    unsigned int window_len_h = window_len / 2;
 
     float start_time;
     std::cin >> start_time;
@@ -54,11 +53,11 @@ int main(void){
         float* spec = fft(window_len, data_f);
 
         float spec_max = 0.0;
-        for(unsigned int i = 1; i < window_len_h; ++i)
+        for(unsigned int i = 0; i < window_len; ++i)
             if(spec[i] > spec_max)
                 spec_max = spec[i];
 
-        plot_data(2048, 1024, graph_path, window_len_h, spec + 1, 0.0, spec_max);
+        plot_data(2048, 1024, graph_path, window_len / 2 + 1, spec, 0.0, spec_max);
 
         delete spec, graph_path;
 
@@ -73,7 +72,7 @@ int main(void){
         f << "\"type\":\"linegraph\"";
         f << ",\"graph_path\":\"" << graph_path_r << "\"";
         f << ",\"xlabel\":\"frequency [kHz]\"";
-        f << ",\"xmin\":" << (float)w->freq / ((float)window_len * 1000.0);
+        f << ",\"xmin\":" << 0;
         f << ",\"xmax\":" << (float)w->freq / (2.0 * 1000.0);
         f << ",\"ylabel\":\"intensity\"";
         f << ",\"ymin\":" << 0;
